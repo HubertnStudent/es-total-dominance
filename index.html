@@ -6,7 +6,6 @@
     <title>ES Total Dominance - Strategie Ewolucyjne</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Roboto', sans-serif; background: #0a0a0f; color: #fff; overflow: hidden; min-height: 100vh; }
@@ -23,20 +22,718 @@
         .nav-controls { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 1rem; z-index: 100; background: rgba(0,0,0,0.7); padding: 0.5rem 1rem; border-radius: 8px; }
         .nav-btn { background: #D00; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: 700; }
         .nav-btn:hover { background: #F22; }
+        .nav-btn:disabled { background: #555; cursor: not-allowed; }
+        .slide-counter { color: #fff; font-size: 1rem; display: flex; align-items: center; }
         .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: #D00; transition: width 0.3s ease; z-index: 100; }
+        pre { background: #1a1a2e; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.9rem; }
+        code { font-family: 'Fira Code', monospace; color: #0f0; }
+        .formula { background: #1a1a2e; padding: 1rem; border-radius: 8px; text-align: center; font-size: 1.3rem; margin: 1rem 0; color: #ff0; }
+        .highlight { color: #D00; font-weight: 700; }
+        .success { color: #0f0; }
+        .warning { color: #ff0; }
         .math-box { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 0.5rem 0; }
         @media (max-width: 768px) { .slide-content { flex-direction: column; } .slide-header { font-size: 1.5rem; } }
     </style>
 </head>
 <body>
     <div class="progress-bar" id="progressBar"></div>
-    
-    <!-- Slides will be injected here -->
-    <div id="slidesContainer"></div>
+
+    <div class="slide-container" data-slide="1" id="slide-1">
+        <h1 class="slide-header">1. HISTORIA ES</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>POCZĄTKI</h2>
+                <p>Lata 60. XX wieku - Berlin.</p>
+                <p>Ingo Rechenberg i Hans-Paul Schwefel.</p>
+                <p>Tunel aerodynamiczny - optymalizacja kształtu.</p>
+            </div>
+            <div class="viz" id="viz-1"><canvas id="canvas-1"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="2" id="slide-2">
+        <h1 class="slide-header">2. REPREZENTACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>FLOATS</h2>
+                <div class="math-box">x ∈ ℝⁿ</div>
+                <p>Wektory liczb rzeczywistych.</p>
+            </div>
+            <div class="viz" id="viz-2"><canvas id="canvas-2"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="3" id="slide-3">
+        <h1 class="slide-header">3. (1+1): INICJALIZACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>START</h2>
+                <p>Losowy punkt x₀.</p>
+            </div>
+            <div class="viz" id="viz-3"><canvas id="canvas-3"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="4" id="slide-4">
+        <h1 class="slide-header">4. (1+1): MUTACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KROK</h2>
+                <div class="math-box">x' = x + N(0, σ)</div>
+            </div>
+            <div class="viz" id="viz-4"><canvas id="canvas-4"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="5" id="slide-5">
+        <h1 class="slide-header">5. (1+1): OCENA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>FITNESS</h2>
+                <p>Porównanie f(x) i f(x').</p>
+            </div>
+            <div class="viz" id="viz-5"><canvas id="canvas-5"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="6" id="slide-6">
+        <h1 class="slide-header">6. (1+1): SELEKCJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>DETERMINIZM</h2>
+                <p>Lepszy wygrywa.</p>
+            </div>
+            <div class="viz" id="viz-6"><canvas id="canvas-6"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="7" id="slide-7">
+        <h1 class="slide-header">7. (1+1): PĘTLA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>CYKL</h2>
+                <p>Powtarzaj do skutku.</p>
+            </div>
+            <div class="viz" id="viz-7"><canvas id="canvas-7"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="8" id="slide-8">
+        <h1 class="slide-header">8. REGUŁA 1/5</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ADAPTACJA</h2>
+                <p>Cel: 20% sukcesów.</p>
+                <p>Za dużo? Zwiększ σ. Za mało? Zmniejsz.</p>
+            </div>
+            <div class="viz" id="viz-8"><canvas id="canvas-8"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="9" id="slide-9">
+        <h1 class="slide-header">9. (μ+λ): POPULACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>RODZICE</h2>
+                <p>μ osobników.</p>
+            </div>
+            <div class="viz" id="viz-9"><canvas id="canvas-9"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="10" id="slide-10">
+        <h1 class="slide-header">10. (μ+λ): REPRODUKCJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>POTOMSTWO</h2>
+                <p>λ dzieci.</p>
+            </div>
+            <div class="viz" id="viz-10"><canvas id="canvas-10"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="11" id="slide-11">
+        <h1 class="slide-header">11. (μ+λ): PULA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>SUMA</h2>
+                <p>Wszyscy razem: μ+λ.</p>
+            </div>
+            <div class="viz" id="viz-11"><canvas id="canvas-11"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="12" id="slide-12">
+        <h1 class="slide-header">12. (μ+λ): SORTOWANIE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>RANKING</h2>
+                <p>Wg jakości.</p>
+            </div>
+            <div class="viz" id="viz-12"><canvas id="canvas-12"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="13" id="slide-13">
+        <h1 class="slide-header">13. (μ+λ): ODCIĘCIE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ELITA</h2>
+                <p>Top μ zostaje.</p>
+            </div>
+            <div class="viz" id="viz-13"><canvas id="canvas-13"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="14" id="slide-14">
+        <h1 class="slide-header">14. (μ+λ): STAGNACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>WADA</h2>
+                <p>Lokalne optima.</p>
+            </div>
+            <div class="viz" id="viz-14"><canvas id="canvas-14"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="15" id="slide-15">
+        <h1 class="slide-header">15. (μ+λ): PODSUMOWANIE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>CECHY</h2>
+                <p>Gwarancja f_new ≥ f_old.</p>
+            </div>
+            <div class="viz" id="viz-15"><canvas id="canvas-15"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="16" id="slide-16">
+        <h1 class="slide-header">16. (μ,λ): STARZENIE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ZAPOMNIENIE</h2>
+                <p>Rodzice żyją krótko.</p>
+            </div>
+            <div class="viz" id="viz-16"><canvas id="canvas-16"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="17" id="slide-17">
+        <h1 class="slide-header">17. (μ,λ): NADMIAROWOŚĆ</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>WYMÓG</h2>
+                <div class="math-box">λ > μ</div>
+            </div>
+            <div class="viz" id="viz-17"><canvas id="canvas-17"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="18" id="slide-18">
+        <h1 class="slide-header">18. (μ,λ): ŚMIERĆ</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KASACJA</h2>
+                <p>Rodzice usunięci.</p>
+            </div>
+            <div class="viz" id="viz-18"><canvas id="canvas-18"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="19" id="slide-19">
+        <h1 class="slide-header">19. (μ,λ): NOWA GENERACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>WYBÓR</h2>
+                <p>Najlepsze z dzieci.</p>
+            </div>
+            <div class="viz" id="viz-19"><canvas id="canvas-19"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="20" id="slide-20">
+        <h1 class="slide-header">20. (μ,λ): DYNAMIKA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>RUCH</h2>
+                <p>Ciągła zmiana.</p>
+            </div>
+            <div class="viz" id="viz-20"><canvas id="canvas-20"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="21" id="slide-21">
+        <h1 class="slide-header">21. GENOTYP X+σ</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KOD</h2>
+                <p>Współewolucja parametrów.</p>
+            </div>
+            <div class="viz" id="viz-21"><canvas id="canvas-21"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="22" id="slide-22">
+        <h1 class="slide-header">22. LOG-NORMAL</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>MUTACJA σ</h2>
+                <p>Mnożymy przez e^N.</p>
+            </div>
+            <div class="viz" id="viz-22"><canvas id="canvas-22"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="23" id="slide-23">
+        <h1 class="slide-header">23. KRZYŻ. DYSKRETNE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>WYBÓR</h2>
+                <p>Albo A, albo B.</p>
+            </div>
+            <div class="viz" id="viz-23"><canvas id="canvas-23"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="24" id="slide-24">
+        <h1 class="slide-header">24. KRZYŻ. POŚREDNIE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ŚREDNIA</h2>
+                <p>(A+B)/2.</p>
+            </div>
+            <div class="viz" id="viz-24"><canvas id="canvas-24"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="25" id="slide-25">
+        <h1 class="slide-header">25. REKOMBINACJA: SENS</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>NAPRAWA</h2>
+                <p>Redukcja błędów.</p>
+            </div>
+            <div class="viz" id="viz-25"><canvas id="canvas-25"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="26" id="slide-26">
+        <h1 class="slide-header">26. OGRANICZENIA 1</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KARA</h2>
+                <p>Fitness = Śmierć.</p>
+            </div>
+            <div class="viz" id="viz-26"><canvas id="canvas-26"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="27" id="slide-27">
+        <h1 class="slide-header">27. OGRANICZENIA 2</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>NAPRAWA</h2>
+                <p>Przesunięcie na brzeg.</p>
+            </div>
+            <div class="viz" id="viz-27"><canvas id="canvas-27"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="28" id="slide-28">
+        <h1 class="slide-header">28. PRZYKŁAD 1</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>SFERA</h2>
+                <p>Prosta zbieżność.</p>
+            </div>
+            <div class="viz" id="viz-28"><canvas id="canvas-28"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="29" id="slide-29">
+        <h1 class="slide-header">29. PRZYKŁAD 2</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>RASTRIGIN</h2>
+                <p>Wielomodalność.</p>
+            </div>
+            <div class="viz" id="viz-29"><canvas id="canvas-29"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="30" id="slide-30">
+        <h1 class="slide-header">30. WYNIKI</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ZBIEŻNOŚĆ</h2>
+                <p>Wykres logarytmiczny.</p>
+            </div>
+            <div class="viz" id="viz-30"><canvas id="canvas-30"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="31" id="slide-31">
+        <h1 class="slide-header">31. PORÓWNANIE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>METODY</h2>
+                <p>Plus vs Comma.</p>
+            </div>
+            <div class="viz" id="viz-31"><canvas id="canvas-31"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="32" id="slide-32">
+        <h1 class="slide-header">32. STATUS</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>DOTYCHCZAS</h2>
+                <p>Podstawy omówione.</p>
+            </div>
+            <div class="viz" id="viz-32"><canvas id="canvas-32"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="33" id="slide-33">
+        <h1 class="slide-header">33. ROZKŁAD NORMALNY</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>GAUSS 2D</h2>
+                <p>Większość mutacji blisko zera.</p>
+                <p>Duże skoki rzadkie.</p>
+            </div>
+            <div class="viz" id="viz-33"><canvas id="canvas-33"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="34" id="slide-34">
+        <h1 class="slide-header">34. KIERUNKOWOŚĆ</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KORELACJA</h2>
+                <p>Mutacje nieskorelowane (koło).</p>
+                <p>Mutacje skorelowane (elipsa).</p>
+            </div>
+            <div class="viz" id="viz-34"><canvas id="canvas-34"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="35" id="slide-35">
+        <h1 class="slide-header">35. PRZYKŁAD 7.11 (RUTKOWSKI)</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KONKRETNE LICZBY</h2>
+                <p>Start: x=[-1.45, -1.95], F=-3.91.</p>
+                <p>Mutacja: y=[-2.35, -2.03], F=-7.64.</p>
+                <p>Decyzja: Gorszy! Zostań przy x.</p>
+            </div>
+            <div class="viz" id="viz-35"><canvas id="canvas-35"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="36" id="slide-36">
+        <h1 class="slide-header">36. MECHANIZM SAMOADAPTACJI</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KOLEJNOŚĆ MA ZNACZENIE</h2>
+                <p>1. Mutacja σ (zmiana zasięgu).</p>
+                <p>2. Mutacja x (skok z NOWYM zasięgiem).</p>
+                <p>To pozwala ewoluować "strategię"!</p>
+            </div>
+            <div class="viz" id="viz-36"><canvas id="canvas-36"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="37" id="slide-37">
+        <h1 class="slide-header">37. REK. GLOBALNA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>MULTI-PARENT</h2>
+                <p>Geny od więcej niż 2 rodziców.</p>
+            </div>
+            <div class="viz" id="viz-37"><canvas id="canvas-37"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="38" id="slide-38">
+        <h1 class="slide-header">38. REK. LOKALNA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>STANDARD</h2>
+                <p>Dwóch rodziców na jedno dziecko.</p>
+            </div>
+            <div class="viz" id="viz-38"><canvas id="canvas-38"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="39" id="slide-39">
+        <h1 class="slide-header">39. EFEKT UŚREDNIANIA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>REDUKCJA SZUMU</h2>
+                <p>Środek ciężkości populacji jest stabilniejszy.</p>
+            </div>
+            <div class="viz" id="viz-39"><canvas id="canvas-39"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="40" id="slide-40">
+        <h1 class="slide-header">40. EKSPLORACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>SZEROKO</h2>
+                <p>Szukanie nowych obszarów.</p>
+                <p>Duża sigma, duża populacja.</p>
+            </div>
+            <div class="viz" id="viz-40"><canvas id="canvas-40"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="41" id="slide-41">
+        <h1 class="slide-header">41. EKSPLOATACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>GŁĘBOKO</h2>
+                <p>Dokładne przeszukanie optimum.</p>
+                <p>Mała sigma, elitaryzm.</p>
+            </div>
+            <div class="viz" id="viz-41"><canvas id="canvas-41"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="42" id="slide-42">
+        <h1 class="slide-header">42. PUŁAPKI</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>LOKALNE MINIMA</h2>
+                <p>Gdzie algorytmy gradientowe giną.</p>
+                <p>ES próbuje przeskoczyć górkę.</p>
+            </div>
+            <div class="viz" id="viz-42"><canvas id="canvas-42"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="43" id="slide-43">
+        <h1 class="slide-header">43. RESTART</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>RATUNEK</h2>
+                <p>Utknąłeś? Zacznij od nowa.</p>
+                <p>Zachowaj najlepsze, resztę zresetuj.</p>
+            </div>
+            <div class="viz" id="viz-43"><canvas id="canvas-43"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="44" id="slide-44">
+        <h1 class="slide-header">44. CMA-ES: WSTĘP</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KRÓL ES</h2>
+                <p>Covariance Matrix Adaptation.</p>
+                <p>Adaptacja kształtu mutacji w locie.</p>
+            </div>
+            <div class="viz" id="viz-44"><canvas id="canvas-44"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="45" id="slide-45">
+        <h1 class="slide-header">45. CMA-ES: MACIERZ C</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KSZTAŁT</h2>
+                <p>Elipsa błędu dopasowuje się do doliny.</p>
+                <p>Rotacja układu współrzędnych.</p>
+            </div>
+            <div class="viz" id="viz-45"><canvas id="canvas-45"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="46" id="slide-46">
+        <h1 class="slide-header">46. CMA-ES: ŚCIEŻKA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>PAMIĘĆ RUCHU</h2>
+                <p>Analiza historii kroków.</p>
+                <p>Przyspiesza zbieżność.</p>
+            </div>
+            <div class="viz" id="viz-46"><canvas id="canvas-46"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="47" id="slide-47">
+        <h1 class="slide-header">47. WIELOKRYTERIALNOŚĆ</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>MO-ES</h2>
+                <p>Dwa cele naraz (np. Szybkość vs Koszt).</p>
+                <p>Nie ma jednego rozwiązania.</p>
+            </div>
+            <div class="viz" id="viz-47"><canvas id="canvas-47"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="48" id="slide-48">
+        <h1 class="slide-header">48. DOMINACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>PARETO</h2>
+                <p>A dominuje B, jeśli jest lepsze we wszystkim.</p>
+            </div>
+            <div class="viz" id="viz-48"><canvas id="canvas-48"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="49" id="slide-49">
+        <h1 class="slide-header">49. FRONT PARETO</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ZBIÓR ROZWIĄZAŃ</h2>
+                <p>Linia kompromisu.</p>
+                <p>Wybierz, co ważniejsze.</p>
+            </div>
+            <div class="viz" id="viz-49"><canvas id="canvas-49"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="50" id="slide-50">
+        <h1 class="slide-header">50. ZASTOSOWANIE: AERO</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>SKRZYDŁO</h2>
+                <p>Minimalizacja oporu.</p>
+                <p>Maksymalizacja siły nośnej.</p>
+            </div>
+            <div class="viz" id="viz-50"><canvas id="canvas-50"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="51" id="slide-51">
+        <h1 class="slide-header">51. ZASTOSOWANIE: ROBOT</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KINEMATYKA</h2>
+                <p>Odwrotna kinematyka ramienia.</p>
+                <p>Dojście do celu przy ograniczeniach stawów.</p>
+            </div>
+            <div class="viz" id="viz-51"><canvas id="canvas-51"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="52" id="slide-52">
+        <h1 class="slide-header">52. MODEL WYSPOWY</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>RÓWNOLEGŁOŚĆ</h2>
+                <p>Wiele populacji ewoluuje niezależnie.</p>
+                <p>Różne wyspy, różne nisze.</p>
+            </div>
+            <div class="viz" id="viz-52"><canvas id="canvas-52"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="53" id="slide-53">
+        <h1 class="slide-header">53. MIGRACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>WYMIANA</h2>
+                <p>Co N generacji wymień najlepsze osobniki.</p>
+                <p>Rozprzestrzenianie dobrych genów.</p>
+            </div>
+            <div class="viz" id="viz-53"><canvas id="canvas-53"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="54" id="slide-54">
+        <h1 class="slide-header">54. TOPOLOGIA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>PIERŚCIEŃ</h2>
+                <p>Wyspa sąsiaduje tylko z dwiema innymi.</p>
+                <p>Spowalnia unifikację, zwiększa różnorodność.</p>
+            </div>
+            <div class="viz" id="viz-54"><canvas id="canvas-54"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="55" id="slide-55">
+        <h1 class="slide-header">55. KOSZT OBLICZEŃ</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>EVALUATIONS</h2>
+                <p>Fitness Function jest droga.</p>
+                <p>Liczymy liczbę wywołań funkcji celu.</p>
+            </div>
+            <div class="viz" id="viz-55"><canvas id="canvas-55"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="56" id="slide-56">
+        <h1 class="slide-header">56. ROBUSTNESS</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ODPORNOŚĆ</h2>
+                <p>Działanie w obecności szumu.</p>
+                <p>Działanie przy uszkodzonych danych.</p>
+            </div>
+            <div class="viz" id="viz-56"><canvas id="canvas-56"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="57" id="slide-57">
+        <h1 class="slide-header">57. HYBRYDYZACJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>MEMETYCZNE</h2>
+                <p>Połączenie ES z przeszukiwaniem lokalnym.</p>
+                <p>Baldwin effect.</p>
+            </div>
+            <div class="viz" id="viz-57"><canvas id="canvas-57"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="58" id="slide-58">
+        <h1 class="slide-header">58. NEURO-EWOLUCJA</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>ES + AI</h2>
+                <p>Trenowanie wag sieci neuronowych za pomocą ES.</p>
+                <p>Alternatywa dla Backpropagation.</p>
+            </div>
+            <div class="viz" id="viz-58"><canvas id="canvas-58"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="59" id="slide-59">
+        <h1 class="slide-header">59. PODSUMOWANIE</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>KLUCZOWE CECHY</h2>
+                <ul>
+                    <li>Ciągła reprezentacja.</li>
+                    <li>Samoadaptacja parametrów.</li>
+                    <li>Deterministyczna selekcja.</li>
+                </ul>
+            </div>
+            <div class="viz" id="viz-59"><canvas id="canvas-59"></canvas></div>
+        </div>
+    </div>
+
+    <div class="slide-container" data-slide="60" id="slide-60">
+        <h1 class="slide-header">60. KONIEC</h1>
+        <div class="slide-content">
+            <div class="text-panel">
+                <h2>DZIĘKUJĘ</h2>
+                <p>STRATEGIE EWOLUCYJNE</p>
+                <p>Totalna Dominacja.</p>
+            </div>
+            <div class="viz" id="viz-60"><canvas id="canvas-60"></canvas></div>
+        </div>
+    </div>
 
     <div class="nav-controls">
         <button class="nav-btn" id="prevBtn" onclick="prevSlide()">← Prev</button>
-        <span class="slide-counter" style="color:#fff;display:flex;align-items:center;">
+        <span class="slide-counter">
             <span id="currentSlide">1</span> / <span id="totalSlides">60</span>
         </span>
         <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
@@ -60,7 +757,6 @@
     <script src="js/anim/anim_parallel.js"></script>
     <script src="js/anim/anim_metrics.js"></script>
     <script src="js/anim/anim_future.js"></script>
-    <script src="js/slides_data.js"></script>
     <script src="js/es_slides_engine.js"></script>
 </body>
 </html>
