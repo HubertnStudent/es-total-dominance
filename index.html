@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES Total Dominance - Strategie Ewolucyjne</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: #0a0a0f; color: #fff; overflow: hidden; min-height: 100vh; }
+        .slide-container { display: none; width: 100vw; height: 100vh; padding: 2rem; position: relative; }
+        .slide-container.active { display: flex; flex-direction: column; }
+        .slide-header { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .slide-content { flex: 1; display: flex; gap: 2rem; min-height: 0; }
+        .text-panel { flex: 1; padding: 1rem; overflow-y: auto; min-width: 0; }
+        .text-panel h2 { color: #D00; margin-bottom: 0.5rem; }
+        .text-panel p, .text-panel li { font-size: 1.1rem; line-height: 1.6; margin-bottom: 0.5rem; }
+        .text-panel ul { padding-left: 1.5rem; }
+        .viz { flex: 1; background: #1a1a2e; border-radius: 12px; position: relative; min-height: 300px; min-width: 0; overflow: hidden; }
+        .viz canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; display: block; }
+        .nav-controls { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 1rem; z-index: 100; background: rgba(0,0,0,0.7); padding: 0.5rem 1rem; border-radius: 8px; }
+        .nav-btn { background: #D00; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: 700; }
+        .nav-btn:hover { background: #F22; }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: #D00; transition: width 0.3s ease; z-index: 100; }
+        .math-box { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin: 0.5rem 0; }
+        @media (max-width: 768px) { .slide-content { flex-direction: column; } .slide-header { font-size: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Slides will be injected here -->
+    <div id="slidesContainer"></div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">← Prev</button>
+        <span class="slide-counter" style="color:#fff;display:flex;align-items:center;">
+            <span id="currentSlide">1</span> / <span id="totalSlides">60</span>
+        </span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script src="js/anim/shared.js"></script>
+    <script src="js/anim/anim_intro.js"></script>
+    <script src="js/anim/anim_1p1.js"></script>
+    <script src="js/anim/anim_onefifth.js"></script>
+    <script src="js/anim/anim_mu_plus.js"></script>
+    <script src="js/anim/anim_mu_comma.js"></script>
+    <script src="js/anim/anim_advanced.js"></script>
+    <script src="js/anim/anim_recomb.js"></script>
+    <script src="js/anim/anim_constraints.js"></script>
+    <script src="js/anim/anim_examples.js"></script>
+    <script src="js/anim/anim_mutation.js"></script>
+    <script src="js/anim/anim_strategy.js"></script>
+    <script src="js/anim/anim_cma.js"></script>
+    <script src="js/anim/anim_mo.js"></script>
+    <script src="js/anim/anim_apps.js"></script>
+    <script src="js/anim/anim_parallel.js"></script>
+    <script src="js/anim/anim_metrics.js"></script>
+    <script src="js/anim/anim_future.js"></script>
+    <script src="js/slides_data.js"></script>
+    <script src="js/es_slides_engine.js"></script>
+</body>
+</html>
